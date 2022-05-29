@@ -21,7 +21,7 @@ describe("generateToken() ", () => {
   // For promises
   it("should generate a token value", () => {
     const testEmail = "test@test.com";
-    expect(generateTokenPromise(testEmail)).resolves.toBeDefined();
+    return expect(generateTokenPromise(testEmail)).resolves.toBeDefined();
   });
 
   // For async / await
