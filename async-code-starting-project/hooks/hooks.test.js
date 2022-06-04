@@ -24,30 +24,33 @@ afterEach(() => {
   user = new User(testEmail);
 });
 
-describe("Hooks Tests - ", () => {
-  it("should update the email", () => {
+describe.concurrent("Hooks Tests - ", () => {
+  it.concurrent("should update the email", () => {
     user.updateEmail(newEmail);
 
     expect(user.email).toBe(newEmail);
   });
 
-  it("should have an email property", () => {
+  it.concurrent("should have an email property", () => {
     expect(user).toHaveProperty("email");
   });
 
-  it("should stored the provided email value", () => {
+  it.concurrent("should stored the provided email value", () => {
     expect(user.email).toBe(testEmail);
   });
 
-  it("should clear the email", () => {
+  it.concurrent("should clear the email", () => {
     user.clearEmail();
 
     expect(user.email).toBe("");
   });
 
-  it("should have an email property after clearing email value", () => {
-    user.clearEmail();
+  it.concurrent(
+    "should have an email property after clearing email value",
+    () => {
+      user.clearEmail();
 
-    expect(user).toHaveProperty("email");
-  });
+      expect(user).toHaveProperty("email");
+    }
+  );
 });
