@@ -6,6 +6,13 @@ import { promises as fs } from "fs";
 // Mock 'fs'
 vi.mock("fs");
 
+// Mock 'path'
+vi.mock("path", () => ({
+  default: {
+    join: (...args) => args[args.length - 1],
+  },
+}));
+
 describe.concurrent("IO Tests", () => {
   it("should write the execute method", () => {
     const testData = "This is test content";
@@ -16,6 +23,7 @@ describe.concurrent("IO Tests", () => {
     // writeData - Promise returns void
     // expect(writeData(testData, testFilename)).resolves.toBeUndefined();
 
-    expect(fs.writeFile).toBeCalled();
+    // expect(fs.writeFile).toBeCalled();
+    expect(fs.writeFile).toBeCalledWith(testFilename, testData);
   });
 });
