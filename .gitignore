@@ -3,3 +3,5 @@ basic-testing*/node_modules
 basic-testing*/coverage
 async*/node_modules
 mocks*/node_modules
+testing*/node_modules
+testing*/coverage
