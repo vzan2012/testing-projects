@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { showError } from "./dom";
 
 const htmlDocPath = path.join(process.cwd(), "index.html");
@@ -9,16 +9,39 @@ const htmlDocumentContent = fs.readFileSync(htmlDocPath).toString();
 
 const window = new Window();
 const document = window.document;
-document.write(htmlDocumentContent);
 
 // Mock the Global - document
 vi.stubGlobal("document", document);
 
-it("should add an error paragraph into id=errors element", () => {
-  showError("test message");
+beforeEach(() => {
+  document.body.innerHTML = "";
+  document.write(htmlDocumentContent);
+});
 
-  const errorElement = document.getElementById("errors");
-  const errorParagraph = errorElement.firstElementChild;
+describe.concurrent("DOM Tests", () => {
+  it("should add an error paragraph into id=errors element", () => {
+    showError("test message");
 
-  expect(errorParagraph).not.toBeNull();
+    const errorElement = document.getElementById("errors");
+    const errorParagraph = errorElement.firstElementChild;
+
+    expect(errorParagraph).not.toBeNull();
+  });
+
+  it("should not contain error paragraph initially", () => {
+    const errorElement = document.getElementById("errors");
+    const errorParagraph = errorElement.firstElementChild;
+
+    expect(errorParagraph).toBeNull();
+  });
+
+  it("should output the provided message in the error paragraph", () => {
+    const testMessage = "test message";
+    showError(testMessage);
+
+    const errorElement = document.getElementById("errors");
+    const errorParagraph = errorElement.firstElementChild;
+
+    expect(errorParagraph.textContent).toBe(testMessage);
+  });
 });
